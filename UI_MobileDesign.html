@@ -1,207 +1,219 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PPRCollect – Carte</title>
-    <style>
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PPRCollect – Carte</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-      body,
-      html {
-        height: 100%;
-        font-family: "Segoe UI", sans-serif;
-        background-color: #f0f8ff;
-      }
+    body, html {
+      height: 100%;
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f0f8ff;
+    }
 
-      #app {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-      }
+    #app {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
 
-      /* Top App Bar */
+    /* 🔵 Barre supérieure */
+    .top-bar {
+      background-color: #1976d2;
+      color: white;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .top-bar .profile {
+      display: flex;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      background-color: white;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .connect {
+      background-color: #ffffff33;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .connect:hover {
+      background-color: #ffffff55;
+    }
+
+    /* 🌍 Carte */
+    #map {
+      flex: 1;
+      position: relative;
+      background: url("https://tile.openstreetmap.org/0/0/0.png") center/cover no-repeat;
+    }
+
+    .position-marker {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      border-radius: 50%;
+      border: 2px solid white;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ➕ Bouton flottant */
+    .fab {
+      position: absolute;
+      bottom: 90px;
+      right: 20px;
+      background-color: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      font-size: 32px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .fab:hover {
+      background-color: #1565c0;
+    }
+
+    /* 📡 Barre d'état */
+    .status-bar {
+      background-color: #e3f2fd;
+      text-align: center;
+      font-size: 13px;
+      padding: 6px;
+      color: #0d47a1;
+    }
+
+    /* ⚙️ Barre inférieure */
+    .bottom-bar {
+      background-color: #fff;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px;
+      border-top: 1px solid #ccc;
+    }
+
+    .bottom-bar button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      transition: transform 0.1s ease;
+    }
+
+    .bottom-bar button:hover {
+      transform: scale(1.05);
+    }
+
+    .save-btn {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    .sync-btn {
+      background-color: #2196f3;
+      color: white;
+    }
+
+    .menu-btn {
+      background-color: #757575;
+      color: white;
+    }
+
+    /* ℹ️ Légende */
+    .legend {
+      background-color: #f9f9f9;
+      padding: 6px;
+      font-size: 12px;
+      text-align: center;
+      color: #555;
+      border-top: 1px solid #ddd;
+    }
+
+    @media (max-width: 480px) {
       .top-bar {
-        background-color: #1976d2;
-        color: white;
-        padding: 10px 16px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 16px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      }
-
-      .top-bar .profile {
-        display: flex;
-        align-items: center;
-      }
-
-      .top-bar .avatar {
-        width: 32px;
-        height: 32px;
-        background-color: white;
-        border-radius: 50%;
-        margin-right: 8px;
-      }
-
-      .top-bar .connect {
-        background-color: #ffffff33;
-        color: white;
-        border: none;
-        padding: 6px 12px;
-        border-radius: 8px;
-        font-size: 13px;
-        cursor: pointer;
-      }
-
-      #map {
-        flex: 1;
-        position: relative;
-        background: url("https://tile.openstreetmap.org/0/0/0.png") center/cover
-          no-repeat;
-      }
-
-      .position-marker {
-        position: absolute;
-        top: 45%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 20px;
-        height: 20px;
-        background-color: red;
-        border-radius: 50%;
-        border: 2px solid white;
-        box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
-      }
-
-      .fab {
-        position: absolute;
-        bottom: 90px;
-        right: 20px;
-        background-color: #1976d2;
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 56px;
-        height: 56px;
-        font-size: 30px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        cursor: pointer;
-      }
-
-      .status-bar {
-        background-color: #e3f2fd;
-        text-align: center;
-        font-size: 13px;
-        padding: 6px;
-        color: #0d47a1;
-      }
-
-      .bottom-bar {
-        background-color: #fff;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        padding: 10px;
-        border-top: 1px solid #ccc;
+        font-size: 14px;
+        padding: 10px 12px;
       }
 
       .bottom-bar button {
-        padding: 10px 15px;
-        border: none;
-        border-radius: 8px;
-        font-size: 14px;
-        cursor: pointer;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        font-size: 13px;
+        padding: 8px 10px;
       }
 
-      .save-btn {
-        background-color: #4caf50;
-        color: white;
+      .fab {
+        width: 48px;
+        height: 48px;
+        font-size: 24px;
       }
-
-      .sync-btn {
-        background-color: #2196f3;
-        color: white;
-      }
-
-      .menu-btn {
-        background-color: #757575;
-        color: white;
-      }
-
-      .legend {
-        background-color: #f9f9f9;
-        padding: 6px;
-        font-size: 12px;
-        text-align: center;
-        color: #555;
-        border-top: 1px solid #ddd;
-      }
-
-      @media (max-width: 480px) {
-        .top-bar {
-          font-size: 14px;
-          padding: 8px 12px;
-        }
-
-        .bottom-bar button {
-          font-size: 13px;
-          padding: 8px 10px;
-        }
-
-        .fab {
-          width: 48px;
-          height: 48px;
-          font-size: 24px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="app">
-      <!-- ✅ Barre supérieure -->
-      <div class="top-bar">
-        <div class="profile">
-          <div class="avatar"></div>
-          <span>Agent Terrain</span>
-        </div>
-        <button class="connect" onclick="alert('Connexion utilisateur')">
-          Se déconnecter
-        </button>
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- 🔝 Barre supérieure -->
+    <div class="top-bar">
+      <div class="profile">
+        <div class="avatar" title="Avatar utilisateur"></div>
+        <span>Agent Terrain</span>
       </div>
-
-      <!-- 🌍 Carte -->
-      <div id="map">
-        <div class="position-marker" title="Position actuelle"></div>
-        <button class="fab" onclick="alert('Ouvrir le formulaire')">+</button>
-      </div>
-
-      <!-- 📡 Infos techniques -->
-      <div class="status-bar">
-        📡 GPS: Activé | 🔄 Sync: 11h30 | 🌐 En ligne
-      </div>
-
-      <!-- ⚙️ Boutons principaux -->
-      <div class="bottom-bar">
-        <button class="save-btn" onclick="alert('Sauvegarde locale')">
-          Sauvegarder
-        </button>
-        <button class="sync-btn" onclick="alert('Synchronisation')">
-          Synchroniser
-        </button>
-        <button class="menu-btn" onclick="alert('Menu')">Menu</button>
-      </div>
-
-      <!-- ℹ️ Légende -->
-      <div class="legend">
-        ➕ Nouvelle collecte | 📍 Position GPS | 🔄 Sync offline/online
-      </div>
+      <button class="connect" onclick="alert('Connexion utilisateur')">Se déconnecter</button>
     </div>
-  </body>
+
+    <!-- 🌍 Carte -->
+    <div id="map" aria-label="Carte interactive">
+      <div class="position-marker" title="Position actuelle"></div>
+      <button class="fab" aria-label="Nouvelle collecte" onclick="alert('Ouvrir le formulaire')">+</button>
+    </div>
+
+    <!-- 📡 Infos techniques -->
+    <div class="status-bar" aria-live="polite">
+      📡 GPS: Activé | 🔄 Sync: 11h30 | 🌐 En ligne
+    </div>
+
+    <!-- ⚙️ Barre de contrôle -->
+    <div class="bottom-bar">
+      <button class="save-btn" onclick="alert('Sauvegarde locale')">💾 Sauvegarder</button>
+      <button class="sync-btn" onclick="alert('Synchronisation')">🔄 Synchroniser</button>
+      <button class="menu-btn" onclick="alert('Menu')">☰ Menu</button>
+    </div>
+
+    <!-- 🗺️ Légende -->
+    <div class="legend">
+      ➕ Nouvelle collecte | 📍 Position GPS | 🔄 Sync offline/online
+    </div>
+  </div>
+</body>
 </html>

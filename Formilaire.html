@@ -1,165 +1,176 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Formulaire PPRCollect</title>
-    <style>
-      * {
-        box-sizing: border-box;
-      }
+<head>
+  <meta charset="UTF-8">
+  <title>Formulaire de collecte – PPRCollecte</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #38BDF8, #34D399);
+      color: #1E293B;
+      padding: 2rem;
+    }
+    .form-container {
+      background-color: #ffffffdd;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+      border-radius: 16px;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 0.25rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+    }
+    button {
+      margin-top: 2rem;
+      padding: 1rem;
+      width: 100%;
+      background-color: #10B981;
+      color: white;
+      border: none;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .hidden {
+      display: none;
+    }
+    video, canvas {
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
 
-      body {
-        font-family: "Segoe UI", sans-serif;
-        background: #f0f8ff;
-        margin: 0;
-        padding: 20px;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
+<div class="form-container">
+  <h2> Formulaire de Collecte – PPRCollecte</h2>
+  <form id="collecteForm">
 
-      .form-container {
-        background: white;
-        padding: 20px;
-        border-radius: 15px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 400px;
-      }
+    <label for="type">Type d'emplacement</label>
+    <select id="type" name="type" required>
+      <option value="">-- Sélectionner --</option>
+      <option value="ecole">École</option>
+      <option value="dalot">Dalot</option>
+      <option value="pont">Pont</option>
+      <option value="marche">Marché</option>
+      <option value="sante">Centre de santé</option>
+      <option value="admin">Bâtiment administratif</option>
+      <option value="hydraulique">Infrastructure hydraulique</option>
+      <option value="autre">Autre infrastructure</option>
+    </select>
 
-      h2 {
-        text-align: center;
-        color: #2196f3;
-      }
+    <label for="nom">Nom de l’emplacement</label>
+    <input type="text" id="nom" name="nom" required>
 
-      label {
-        display: block;
-        margin-top: 15px;
-        font-weight: bold;
-        font-size: 14px;
-      }
+    <label>Coordonnées GPS</label>
+    <input type="text" id="latitude" name="latitude" placeholder="Latitude" readonly>
+    <input type="text" id="longitude" name="longitude" placeholder="Longitude" readonly>
 
-      input,
-      select,
-      textarea {
-        width: 100%;
-        padding: 10px;
-        margin-top: 5px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        font-size: 16px;
-      }
+    <label for="commune">Commune rurale</label>
+    <select id="commune" name="commune" required>
+      <option value="">-- Choisir --</option>
+      <option value="1">Commune A</option>
+      <option value="2">Commune B</option>
+    </select>
 
-      textarea {
-        resize: vertical;
-      }
+    <label for="piste">Piste associée</label>
+    <select id="piste" name="piste" required>
+      <option value="">-- Choisir --</option>
+      <option value="1">Piste 001</option>
+      <option value="2">Piste 002</option>
+    </select>
 
-      .coords-container {
-        display: flex;
-        gap: 10px;
-      }
-
-      .coords-container input {
-        width: 100%;
-      }
-
-      button {
-        margin-top: 20px;
-        width: 100%;
-        padding: 12px;
-        background-color: #4caf50;
-        color: white;
-        border: none;
-        font-size: 16px;
-        border-radius: 8px;
-        cursor: pointer;
-      }
-
-      button:hover {
-        background-color: #45a049;
-      }
-
-      .note {
-        font-size: 12px;
-        color: gray;
-        text-align: center;
-        margin-top: 10px;
-      }
-
-      @media (max-width: 480px) {
-        .coords-container {
-          flex-direction: column;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="form-container">
-      <h2>Nouvelle Collecte</h2>
-
-      <label>🌍 Coordonnées (manuelles)</label>
-      <div class="coords-container">
-        <input type="number" id="x" placeholder="Abscisse (X)" />
-        <input type="number" id="y" placeholder="Ordonnée (Y)" />
-      </div>
-
-      <label for="gps">📍 Position GPS</label>
-      <input type="text" id="gps" placeholder="Chargement..." readonly />
-
-      <label for="type">📝 Type d'observation</label>
-      <select id="type">
-        <option value="">-- Choisir --</option>
-        <option>Infrastructures</option>
-        <option>Activité agricole</option>
-        <option>Zone à risque</option>
-        <option>Point d’eau</option>
-      </select>
-
-      <label for="photo">📷 Photo</label>
-      <input type="file" id="photo" accept="image/*" />
-
-      <label for="datetime">📅 Date/Heure</label>
-      <input type="text" id="datetime" readonly />
-
-      <label for="comment">✍️ Commentaire</label>
-      <textarea
-        id="comment"
-        rows="3"
-        placeholder="Ajouter une remarque..."
-      ></textarea>
-
-      <button onclick="submitForm()">💾 Enregistrer</button>
-
-      <div class="note">
-        Les données seront enregistrées localement si hors ligne.
-      </div>
+    <!-- Champs dynamiques selon type -->
+    <div id="dalotFields" class="hidden">
+      <label for="situation_dalot">Situation du dalot</label>
+      <input type="text" id="situation_dalot" name="situation_dalot">
     </div>
 
-    <script>
-      document.getElementById("datetime").value = new Date().toLocaleString();
+    <div id="ecoleFields" class="hidden">
+      <label for="type_ecole">Type d’école</label>
+      <select id="type_ecole" name="type_ecole">
+        <option>Primaire</option>
+        <option>Secondaire</option>
+        <option>Technique</option>
+      </select>
+      <label for="date_creation_ecole">Date de création</label>
+      <input type="date" id="date_creation_ecole" name="date_creation_ecole">
+    </div>
 
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(
-          function (position) {
-            document.getElementById("gps").value =
-              position.coords.latitude.toFixed(6) +
-              ", " +
-              position.coords.longitude.toFixed(6);
-          },
-          function () {
-            document.getElementById("gps").value = "Erreur de localisation.";
-          }
-        );
-      } else {
-        document.getElementById("gps").value = "GPS non supporté.";
-      }
+    <div id="pontFields" class="hidden">
+      <label for="nom_cours_eau">Cours d’eau traversé</label>
+      <input type="text" id="nom_cours_eau" name="nom_cours_eau">
+    </div>
 
-      function submitForm() {
-        alert("✅ Données enregistrées localement !");
-        // Ajouter ici : stockage local ou API
-      }
-    </script>
-  </body>
+    <!-- Commentaire -->
+    <label for="commentaire">Commentaire</label>
+    <textarea id="commentaire" name="commentaire" rows="4" placeholder="Ajoutez un commentaire ici..."></textarea>
+
+    <!-- Caméra -->
+    <label>Prendre une photo</label>
+    <video id="video" autoplay playsinline></video>
+    <button type="button" onclick="takePhoto()">📸 Capturer</button>
+    <canvas id="canvas" class="hidden"></canvas>
+    <input type="hidden" name="photoData" id="photoData">
+
+    <!-- Soumission -->
+    <button type="submit">📤 Enregistrer </button>
+  </form>
+</div>
+
+<script>
+  // Géolocalisation
+  window.onload = function () {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        document.getElementById('latitude').value = position.coords.latitude;
+        document.getElementById('longitude').value = position.coords.longitude;
+      });
+    }
+
+    // Caméra
+    const video = document.getElementById('video');
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+      .then(stream => {
+        video.srcObject = stream;
+      })
+      .catch(err => {
+        alert("Erreur d'accès à la caméra : " + err.message);
+      });
+  };
+
+  function takePhoto() {
+   
+
+    alert("📷 Photo capturée !");
+  }
+
+  // Affichage dynamique des champs
+  document.getElementById('type').addEventListener('change', function () {
+    const type = this.value;
+    document.getElementById('dalotFields').classList.toggle('hidden', type !== 'dalot');
+    document.getElementById('ecoleFields').classList.toggle('hidden', type !== 'ecole');
+    document.getElementById('pontFields').classList.toggle('hidden', type !== 'pont');
+  });
+
+  // Soumission du formulaire
+  document.getElementById('collecteForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    alert("✅ Emplacement enregistré avec la photo !");
+    // TODO : envoyer vers votre backend (inclure photoData, etc.)
+  });
+</script>
+
+</body>
 </html>
