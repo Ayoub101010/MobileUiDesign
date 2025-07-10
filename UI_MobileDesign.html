@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Écran Carte Principale - Stylée</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body,
+      html {
+        height: 100%;
+        font-family: "Segoe UI", sans-serif;
+        background-color: #f5f5f5;
+      }
+      #app {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      #map {
+        flex: 1;
+        position: relative;
+        background: url("https://tile.openstreetmap.org/0/0/0.png") center/cover
+          no-repeat;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .position-marker {
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 20px;
+        height: 20px;
+        background-color: red;
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+      }
+      .fab {
+        position: absolute;
+        bottom: 90px;
+        right: 20px;
+        background-color: #1976d2;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 56px;
+        height: 56px;
+        font-size: 30px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+      }
+      .status-bar {
+        background-color: #e0e0e0;
+        text-align: center;
+        font-size: 12px;
+        padding: 6px;
+        color: #333;
+      }
+      .bottom-bar {
+        background-color: #fff;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 10px;
+        border-top: 1px solid #ccc;
+      }
+      .bottom-bar button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+      .save-btn {
+        background-color: #4caf50;
+        color: white;
+      }
+      .sync-btn {
+        background-color: #2196f3;
+        color: white;
+      }
+      .menu-btn {
+        background-color: #757575;
+        color: white;
+      }
+      .legend {
+        background-color: #f9f9f9;
+        padding: 6px;
+        font-size: 11px;
+        text-align: center;
+        color: #555;
+        border-top: 1px solid #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="map">
+        <div class="position-marker" title="Position actuelle"></div>
+        <button class="fab" onclick="alert('Ouvrir le formulaire')">+</button>
+      </div>
+      <div class="status-bar">
+        📡 GPS: Activé | 🔄 Sync: 11h30 | 🌐 En ligne
+      </div>
+      <div class="bottom-bar">
+        <button class="save-btn" onclick="alert('Sauvegarde locale')">
+          Sauvegarder
+        </button>
+        <button class="sync-btn" onclick="alert('Synchronisation')">
+          Synchroniser
+        </button>
+        <button class="menu-btn" onclick="alert('Menu')">Menu</button>
+      </div>
+      <div class="legend">
+        ➕ Nouvelle collecte | 📍 Position GPS | 🔄 Sync offline/online
+      </div>
+    </div>
+  </body>
+</html>
