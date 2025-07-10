@@ -40,6 +40,15 @@
         align-items: center;
         justify-content: center;
         margin: 0 auto 1rem;
+        position: relative;
+      }
+      .sync-inside {
+        position: absolute;
+        top: 0.5px;
+        right: 0.5px;
+        font-size: 14px;
+        color: #4caf50;
+        transform: rotate(15deg);
       }
 
       .pin {
@@ -60,15 +69,6 @@
         position: absolute;
         top: 7px;
         left: 7px;
-      }
-
-      .sync {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 14px;
-        color: #4caf50;
-        transform: rotate(15deg);
       }
 
       .text {
@@ -159,7 +159,7 @@
       <!-- Logo stylisé -->
       <div class="logo-container">
         <div class="pin"></div>
-        <div class="sync">🛰️</div>
+        <div class="sync-inside">🛰️</div>
         <div class="text">PPRCollecte</div>
       </div>
 
