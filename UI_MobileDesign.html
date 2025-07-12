@@ -1,219 +1,397 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PPRCollect – Carte</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PPRCollect – Carte</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    body, html {
-      height: 100%;
-      font-family: "Segoe UI", sans-serif;
-      background-color: #f0f8ff;
-    }
+      body,
+      html {
+        height: 100%;
+        font-family: "Segoe UI", sans-serif;
+        background-color: #f0f8ff;
+      }
 
-    #app {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
+      #app {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
 
-    /* 🔵 Barre supérieure */
-    .top-bar {
-      background-color: #1976d2;
-      color: white;
-      padding: 12px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 16px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    .top-bar .profile {
-      display: flex;
-      align-items: center;
-    }
-
-    .avatar {
-      width: 36px;
-      height: 36px;
-      background-color: white;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
-
-    .connect {
-      background-color: #ffffff33;
-      color: white;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-
-    .connect:hover {
-      background-color: #ffffff55;
-    }
-
-    /* 🌍 Carte */
-    #map {
-      flex: 1;
-      position: relative;
-      background: url("https://tile.openstreetmap.org/0/0/0.png") center/cover no-repeat;
-    }
-
-    .position-marker {
-      position: absolute;
-      top: 45%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 20px;
-      height: 20px;
-      background-color: red;
-      border-radius: 50%;
-      border: 2px solid white;
-      box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
-    }
-
-    /* ➕ Bouton flottant */
-    .fab {
-      position: absolute;
-      bottom: 90px;
-      right: 20px;
-      background-color: #1976d2;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 56px;
-      height: 56px;
-      font-size: 32px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .fab:hover {
-      background-color: #1565c0;
-    }
-
-    /* 📡 Barre d'état */
-    .status-bar {
-      background-color: #e3f2fd;
-      text-align: center;
-      font-size: 13px;
-      padding: 6px;
-      color: #0d47a1;
-    }
-
-    /* ⚙️ Barre inférieure */
-    .bottom-bar {
-      background-color: #fff;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 10px;
-      border-top: 1px solid #ccc;
-    }
-
-    .bottom-bar button {
-      padding: 10px 15px;
-      border: none;
-      border-radius: 8px;
-      font-size: 14px;
-      cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      transition: transform 0.1s ease;
-    }
-
-    .bottom-bar button:hover {
-      transform: scale(1.05);
-    }
-
-    .save-btn {
-      background-color: #4caf50;
-      color: white;
-    }
-
-    .sync-btn {
-      background-color: #2196f3;
-      color: white;
-    }
-
-    .menu-btn {
-      background-color: #757575;
-      color: white;
-    }
-
-    /* ℹ️ Légende */
-    .legend {
-      background-color: #f9f9f9;
-      padding: 6px;
-      font-size: 12px;
-      text-align: center;
-      color: #555;
-      border-top: 1px solid #ddd;
-    }
-
-    @media (max-width: 480px) {
+      /* 🔵 Barre supérieure */
       .top-bar {
+        background-color: #1976d2;
+        color: white;
+        padding: 12px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 16px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .top-bar .profile {
+        display: flex;
+        align-items: center;
+      }
+
+      .avatar {
+        width: 36px;
+        height: 36px;
+        background-color: white;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+
+      .connect {
+        background-color: #ffffff33;
+        color: white;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 8px;
         font-size: 14px;
-        padding: 10px 12px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .connect:hover {
+        background-color: #ffffff55;
+      }
+
+      /* 🌍 Carte */
+      #map {
+        flex: 1;
+        position: relative;
+        background: url("https://tile.openstreetmap.org/0/0/0.png") center/cover
+          no-repeat;
+      }
+
+      .position-marker {
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 20px;
+        height: 20px;
+        background-color: red;
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+      }
+
+      /* ➕ Bouton flottant */
+      .fab {
+        position: absolute;
+        bottom: 90px;
+        right: 20px;
+        background-color: #1976d2;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 56px;
+        height: 56px;
+        font-size: 32px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .fab:hover {
+        background-color: #1565c0;
+      }
+
+      /* 📡 Barre d'état */
+      .status-bar {
+        background-color: #e3f2fd;
+        text-align: center;
+        font-size: 13px;
+        padding: 6px;
+        color: #0d47a1;
+      }
+
+      /* ⚙️ Barre inférieure */
+      .bottom-bar {
+        background-color: #fff;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 10px;
+        border-top: 1px solid #ccc;
       }
 
       .bottom-bar button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transition: transform 0.1s ease;
+      }
+
+      .bottom-bar button:hover {
+        transform: scale(1.05);
+      }
+
+      .save-btn {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      .sync-btn {
+        background-color: #2196f3;
+        color: white;
+      }
+
+      .menu-btn {
+        background-color: #757575;
+        color: white;
+      }
+
+      /* ℹ️ Légende */
+      .legend {
+        background-color: #f9f9f9;
+        padding: 6px;
+        font-size: 12px;
+        text-align: center;
+        color: #555;
+        border-top: 1px solid #ddd;
+      }
+
+      @media (max-width: 480px) {
+        .top-bar {
+          font-size: 14px;
+          padding: 10px 12px;
+        }
+
+        .bottom-bar button {
+          font-size: 13px;
+          padding: 8px 10px;
+        }
+
+        .fab {
+          width: 48px;
+          height: 48px;
+          font-size: 24px;
+        }
+      }
+
+      /* 🔲 MENU MODAL */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+      }
+
+      .modal-content {
+        background-color: #fff;
+        margin: 10% auto;
+        padding: 20px;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 380px;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      .modal-content h3 {
+        margin-bottom: 10px;
+        text-align: center;
+      }
+
+      .modal-content ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .modal-content li {
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      .modal-content li:hover {
+        background: #f0f8ff;
+      }
+
+      .modal-content button {
+        margin-top: 5px;
+        padding: 5px 10px;
+        border: none;
+        background: #2196f3;
+        color: white;
+        border-radius: 5px;
         font-size: 13px;
-        padding: 8px 10px;
+        cursor: pointer;
       }
 
-      .fab {
-        width: 48px;
-        height: 48px;
+      .close {
+        float: right;
         font-size: 24px;
+        cursor: pointer;
+        user-select: none;
       }
-    }
-  </style>
-</head>
-<body>
-  <div id="app">
-    <!-- 🔝 Barre supérieure -->
-    <div class="top-bar">
-      <div class="profile">
-        <div class="avatar" title="Avatar utilisateur"></div>
-        <span>Agent Terrain</span>
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!-- 🔝 Barre supérieure -->
+      <div class="top-bar">
+        <div class="profile">
+          <div class="avatar" title="Avatar utilisateur"></div>
+          <span>Agent Terrain</span>
+        </div>
+        <button class="connect" onclick="alert('Connexion utilisateur')">
+          Se déconnecter
+        </button>
       </div>
-      <button class="connect" onclick="alert('Connexion utilisateur')">Se déconnecter</button>
+
+      <!-- 🌍 Carte -->
+      <div id="map" aria-label="Carte interactive">
+        <div class="position-marker" title="Position actuelle"></div>
+        <button
+          class="fab"
+          aria-label="Nouvelle collecte"
+          onclick="alert('Ouvrir le formulaire')"
+        >
+          +
+        </button>
+      </div>
+
+      <!-- 📡 Infos techniques -->
+      <div class="status-bar" aria-live="polite">
+        📡 GPS: Activé | 🔄 Sync: 11h30 | 🌐 En ligne
+      </div>
+
+      <!-- ⚙️ Barre de contrôle -->
+      <div class="bottom-bar">
+        <button class="save-btn" onclick="alert('Sauvegarde locale')">
+          💾 Sauvegarder
+        </button>
+        <button class="sync-btn" onclick="alert('Synchronisation')">
+          🔄 Synchroniser
+        </button>
+        <button class="menu-btn" onclick="openMenu()">☰ Menu</button>
+      </div>
+
+      <!-- 🗺️ Légende -->
+      <div class="legend">
+        ➕ Nouvelle collecte | 📍 Position GPS | 🔄 Sync offline/online
+      </div>
     </div>
 
-    <!-- 🌍 Carte -->
-    <div id="map" aria-label="Carte interactive">
-      <div class="position-marker" title="Position actuelle"></div>
-      <button class="fab" aria-label="Nouvelle collecte" onclick="alert('Ouvrir le formulaire')">+</button>
+    <!-- 📋 MENU MODAL -->
+    <div
+      id="menuModal"
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="menuTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-content">
+        <span
+          class="close"
+          role="button"
+          aria-label="Fermer le menu"
+          tabindex="0"
+          onclick="closeMenu()"
+          onkeydown="if(event.key==='Enter'||event.key===' ')closeMenu()"
+          >&times;</span
+        >
+        <h3 id="menuTitle">☰ Menu</h3>
+        <ul>
+          <li>
+            🔐<strong>Profil utilisateur</strong><br /><small
+              >Nom : Agent X | ID : 12345</small
+            >
+          </li>
+          <li onclick="alert('Déconnexion...')" tabindex="0" role="button">
+            🚪 Se déconnecter
+          </li>
+          <li
+            onclick="alert('Modifier mot de passe')"
+            tabindex="0"
+            role="button"
+          >
+            🔑 Modifier le mot de passe
+          </li>
+          <hr />
+          <li
+            onclick="alert('Historique des collectes')"
+            tabindex="0"
+            role="button"
+          >
+            🕓 Historique des collectes
+          </li>
+          <li
+            onclick="alert('Statut de synchronisation')"
+            tabindex="0"
+            role="button"
+          >
+            📡 Dernière sync : 11h42 <br /><button>🔄 Forcer la sync</button>
+          </li>
+          <hr />
+          <li onclick="alert('Paramètres')" tabindex="0" role="button">
+            ⚙️ Paramètres
+          </li>
+          <li onclick="alert('Changer la langue')" tabindex="0" role="button">
+            🌐 Langue : FR
+          </li>
+          <li onclick="alert('URL API')" tabindex="0" role="button">
+            🔗 API: https://api.pprcollecte.org
+          </li>
+          <li onclick="alert('Format coordonnées')" tabindex="0" role="button">
+            📍 Coordonnées : décimales
+          </li>
+          <hr />
+          <li onclick="alert('Aide et support')" tabindex="0" role="button">
+            ❓ Aide & à propos
+          </li>
+          <li>📱 Version : 1.0.0</li>
+          <li>📧 support@pprcollecte.org</li>
+        </ul>
+      </div>
     </div>
 
-    <!-- 📡 Infos techniques -->
-    <div class="status-bar" aria-live="polite">
-      📡 GPS: Activé | 🔄 Sync: 11h30 | 🌐 En ligne
-    </div>
+    <script>
+      function openMenu() {
+        const modal = document.getElementById("menuModal");
+        modal.style.display = "block";
+        modal.setAttribute("aria-hidden", "false");
+      }
 
-    <!-- ⚙️ Barre de contrôle -->
-    <div class="bottom-bar">
-      <button class="save-btn" onclick="alert('Sauvegarde locale')">💾 Sauvegarder</button>
-      <button class="sync-btn" onclick="alert('Synchronisation')">🔄 Synchroniser</button>
-      <button class="menu-btn" onclick="alert('Menu')">☰ Menu</button>
-    </div>
+      function closeMenu() {
+        const modal = document.getElementById("menuModal");
+        modal.style.display = "none";
+        modal.setAttribute("aria-hidden", "true");
+      }
 
-    <!-- 🗺️ Légende -->
-    <div class="legend">
-      ➕ Nouvelle collecte | 📍 Position GPS | 🔄 Sync offline/online
-    </div>
-  </div>
-</body>
+      window.onclick = function (event) {
+        const modal = document.getElementById("menuModal");
+        if (event.target === modal) {
+          closeMenu();
+        }
+      };
+
+      // Accessibilité : fermer menu avec Échap
+      window.addEventListener("keydown", function (e) {
+        const modal = document.getElementById("menuModal");
+        if (e.key === "Escape" && modal.style.display === "block") {
+          closeMenu();
+        }
+      });
+    </script>
+  </body>
 </html>
